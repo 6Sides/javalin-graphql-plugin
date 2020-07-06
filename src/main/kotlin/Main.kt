@@ -21,7 +21,7 @@ fun main() {
     }.start(props.port)
 }
 
-fun createGraphQL(): GraphQL {
+private fun createGraphQL(): GraphQL {
     val schema = "type Query{hello: String}"
 
     val schemaParser = SchemaParser()

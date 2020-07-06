@@ -23,6 +23,7 @@ dependencies {
     compile 'com.github.6Sides:graphql-java-annotations:cd1450572b'
     compile "com.fasterxml.jackson.module:jackson-module-kotlin:2.8.11.1"
 
+    compile 'com.github.6Sides:data-utils:2b1426a668'
     compile 'com.github.6Sides:hydro:98b6674bb6'
 
     compile "org.slf4j:slf4j-simple:1.8.0-beta4"
