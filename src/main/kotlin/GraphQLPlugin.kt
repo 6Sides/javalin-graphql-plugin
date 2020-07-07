@@ -5,48 +5,18 @@ import graphql.ExecutionInput
 import graphql.GraphQL
 import io.javalin.Javalin
 import io.javalin.core.plugin.Plugin
-import io.javalin.http.HandlerType
 import schemabuilder.processor.pipelines.parsing.dataloaders.DataLoaderRepository
 import java.util.HashMap
 
-
-class DashflightGraphQLPlugin(
+class GraphQLPlugin(
     private val props: JavalinProperties,
     private val graphql: GraphQL,
     private val contextProvider: GraphQLContextProvider? = null
 ): Plugin {
 
+    private val mapper = ObjectMapper().registerModule(KotlinModule())
+
     override fun apply(javalin: Javalin) {
-        // Log exceptions to console
-        javalin.exception(Exception::class.java) { exception, _ ->
-            exception.printStackTrace()
-        }
-
-        // Block trace requests due to old vulnerability with HttpOnly cookie setting
-        javalin.addHandler(HandlerType.TRACE, "*") {
-            it.res.status = 405
-        }
-
-        // Allow options for pre-flight requests
-        javalin.addHandler(HandlerType.OPTIONS, "*") {}
-
-
-        // Configure headers
-        javalin.before("*") {
-            with(it.res) {
-                contentType = "application/json"
-                addHeader("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,OPTIONS")
-                addHeader("Access-Control-Allow-Origin", props.originHeader)
-                addHeader("Access-Control-Allow-Credentials", "true")
-                addHeader("Access-Control-Allow-Headers", props.allowedHeaders.joinToString(","))
-            }
-        }
-
-        // Used for health checks by docker
-        javalin.get("${props.endpoint}/ping") { it.result("pong") }
-
-        //============================GraphQL Configuration=================================
-        val mapper = ObjectMapper().registerModule(KotlinModule())
         // configuration.graphQL.transform { builder: GraphQL.Builder -> builder.instrumentation(configuration.instrumentation) }
         javalin.post(props.endpoint) {
             val ctx: Any?
@@ -77,7 +47,6 @@ class DashflightGraphQLPlugin(
             } catch (e: ClassCastException) {
                 it.res.sendError(400, "The variables supplied were malformed")
             }
-            // it.res.sendError(400, "Whoops! Something went wrong")
         }
     }
 }

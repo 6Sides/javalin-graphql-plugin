@@ -17,7 +17,8 @@ fun main() {
 
     val props = HydroJavalinProperties().getProperties()
     Javalin.create {
-        it.registerPlugin(DashflightGraphQLPlugin(props, createGraphQL()))
+        it.registerPlugin(DashflightPlugin(props))
+        it.registerPlugin(GraphQLPlugin(props, createGraphQL()))
     }.start(props.port)
 }
 
