@@ -21,7 +21,13 @@ class GraphQLPlugin(
         javalin.post(endpoint) {
             val token = it.req.getHeader("Authorization")?.replace("Bearer ", "")
 
-            println(it.req.cookies)
+            it.req.cookies.forEach { cookie ->
+                println(cookie.name)
+                println(cookie.value)
+                println(cookie.comment)
+                println(cookie.version)
+                println(cookie.secure)
+            }
             val tokenFgp = it.req.cookies?.let { list ->
                 list.firstOrNull { cookie ->
                     cookie.name === "Secure-Fgp"
