@@ -1,0 +1,15 @@
+port: 8080
+
+allowed-headers:
+  - 'Content-Type'
+  - 'Authorization'
+  - 'X-Requested-With'
+  - 'Content-Length'
+  - 'Accept'
+  - 'Origin'
+  - 'Cookie'
+  - 'Secure-Fgp'
+
+cookie-attributes:
+  - HttpOnly
+  - SameSite=Strict
