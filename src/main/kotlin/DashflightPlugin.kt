@@ -13,7 +13,6 @@ class DashflightPlugin(
             exception.printStackTrace()
         }
 
-        javalin.start()
         // Configure headers
         javalin.before("*") {
             with(it.res) {

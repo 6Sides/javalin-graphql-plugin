@@ -9,7 +9,7 @@ import schemabuilder.processor.pipelines.parsing.dataloaders.DataLoaderRepositor
 import java.util.HashMap
 
 class GraphQLPlugin(
-    private val props: JavalinProperties,
+    private val endpoint: String,
     private val graphql: GraphQL,
     private val contextProvider: GraphQLContextProvider? = null
 ): Plugin {
@@ -18,7 +18,7 @@ class GraphQLPlugin(
 
     override fun apply(javalin: Javalin) {
         // configuration.graphQL.transform { builder: GraphQL.Builder -> builder.instrumentation(configuration.instrumentation) }
-        javalin.post(props.endpoint) {
+        javalin.post(endpoint) {
             val ctx: Any?
             val token = it.req.getHeader("Authorization")?.replace("Bearer ", "")
             val tokenFgp = it.req.cookies?.let { list ->
