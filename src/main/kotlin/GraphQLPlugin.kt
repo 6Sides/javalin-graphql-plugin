@@ -19,16 +19,16 @@ class GraphQLPlugin(
     override fun apply(javalin: Javalin) {
         // configuration.graphQL.transform { builder: GraphQL.Builder -> builder.instrumentation(configuration.instrumentation) }
         javalin.post(endpoint) {
-            val ctx: Any?
             val token = it.req.getHeader("Authorization")?.replace("Bearer ", "")
 
+            println(it.req.cookies)
             val tokenFgp = it.req.cookies?.let { list ->
                 list.firstOrNull { cookie ->
                     cookie.name === "Secure-Fgp"
                 }
             }
 
-            ctx = contextProvider?.createContext(token, tokenFgp?.value)
+            val ctx = contextProvider?.createContext(token, tokenFgp?.value)
 
             val body = it.body()
 
