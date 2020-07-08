@@ -39,7 +39,7 @@ class GraphQLPlugin(
             try {
                 val input = ExecutionInput.newExecutionInput()
                     .query(data["query"] as String?)
-                    .variables(data["variables"] as Map<String?, Any?>?)
+                    .variables(data["variables"] as Map<String?, Any?>? ?: emptyMap())
                     .dataLoaderRegistry(DataLoaderRepository.dataLoaderRegistry)
                     .context(ctx)
                     .build()
