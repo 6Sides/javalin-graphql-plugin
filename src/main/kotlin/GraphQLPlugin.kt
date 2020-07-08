@@ -11,7 +11,8 @@ import java.util.HashMap
 class GraphQLPlugin(
     private val endpoint: String,
     private val graphql: GraphQL,
-    private val contextProvider: GraphQLContextProvider? = null
+    private val contextProvider: GraphQLContextProvider? = null,
+    private val enableLogging: Boolean = false
 ): Plugin {
 
     private val mapper = ObjectMapper().registerModule(KotlinModule())
@@ -30,6 +31,10 @@ class GraphQLPlugin(
             val ctx = contextProvider?.createContext(token, tokenFgp?.value)
 
             val body = it.body()
+
+            if (enableLogging) {
+                println(body)
+            }
 
             val data: Map<String, Any?> = mapper.readValue(
                 body,
