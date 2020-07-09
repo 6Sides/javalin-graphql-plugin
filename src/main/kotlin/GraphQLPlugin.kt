@@ -28,7 +28,7 @@ class GraphQLPlugin(
                 }
             }
 
-            val ctx = contextProvider?.createContext(token, tokenFgp?.value)
+            val ctx = contextProvider?.createContext(it, token, tokenFgp?.value)
 
             val body = it.body()
 

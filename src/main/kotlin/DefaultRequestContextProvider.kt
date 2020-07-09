@@ -1,4 +1,5 @@
 import com.google.inject.Inject
+import io.javalin.http.Context
 import net.dashflight.data.jwt.verify.JwtVerificationResponse
 import net.dashflight.data.jwt.verify.JwtVerifier
 import net.dashflight.data.postgres.PostgresClient
@@ -10,7 +11,7 @@ class DefaultRequestContextProvider @Inject constructor(
         private val jwtVerifier: JwtVerifier
 ) : GraphQLContextProvider {
 
-    override fun createContext(token: String?, tokenFgp: String?): RequestContext? {
+    override fun createContext(context: Context, token: String?, tokenFgp: String?): RequestContext? {
         if (token == null || tokenFgp == null) {
             return null
         }
@@ -28,7 +29,7 @@ class DefaultRequestContextProvider @Inject constructor(
             val locations = getLocations(id)
             val (organization, homeLocation) = getOrgAndHomeLocation(id)
 
-            RequestContext(UUID.fromString(id), organization, homeLocation, locations)
+            RequestContext(UUID.fromString(id), organization, homeLocation, locations, context)
         }
     }
 

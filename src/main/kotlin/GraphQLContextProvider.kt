@@ -1,3 +1,5 @@
+import io.javalin.http.Context
+
 interface GraphQLContextProvider {
-    fun createContext(token: String?, tokenFgp: String?): Any?
+    fun createContext(context: Context, token: String?, tokenFgp: String?): Any?
 }
