@@ -2,10 +2,10 @@ import io.javalin.http.Context
 import java.util.*
 
 data class RequestContext(
-    val userId: UUID,
-    val organization: Organization,
-    val homeLocation: Location?,
-    private val locations: List<Location>,
+    val userId: UUID? = null,
+    val organization: Organization? = null,
+    val homeLocation: Location? = null,
+    private val locations: List<Location> = emptyList(),
     val httpRequestContext: Context
 ) {
 

@@ -13,7 +13,7 @@ class DefaultRequestContextProvider @Inject constructor(
 
     override fun createContext(context: Context, token: String?, tokenFgp: String?): RequestContext? {
         if (token == null || tokenFgp == null) {
-            return null
+            return RequestContext(httpRequestContext = context)
         }
 
         var userId: String? = null
