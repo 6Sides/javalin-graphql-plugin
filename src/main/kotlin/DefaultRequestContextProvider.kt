@@ -30,7 +30,7 @@ class DefaultRequestContextProvider @Inject constructor(
             val (organization, homeLocation) = getOrgAndHomeLocation(id)
 
             RequestContext(UUID.fromString(id), organization, homeLocation, locations, context)
-        }
+        } ?: RequestContext(httpRequestContext = context)
     }
 
     private fun getLocations(userId: String): List<Location> {
