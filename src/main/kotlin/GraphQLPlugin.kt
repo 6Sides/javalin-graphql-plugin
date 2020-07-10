@@ -22,13 +22,14 @@ class GraphQLPlugin(
         javalin.post(endpoint) {
             val token = it.req.getHeader("Authorization")?.replace("Bearer ", "")
 
-            val tokenFgp = it.req.cookies?.let { list ->
+            val tokenFgp = it.req.getHeader("Secure-Fgp")
+            /*val tokenFgp = it.req.cookies?.let { list ->
                 list.firstOrNull { cookie ->
                     cookie.name == "Secure-Fgp"
                 }
-            }
+            }*/
 
-            val ctx = contextProvider?.createContext(it, token, tokenFgp?.value)
+            val ctx = contextProvider?.createContext(it, token, tokenFgp)
 
             val body = it.body()
 
