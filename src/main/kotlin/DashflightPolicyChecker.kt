@@ -17,7 +17,7 @@ class DashflightPolicyChecker @Inject constructor(
     override fun hasPermission(ctx: RequestContext?, policy: String?): Any? {
 
         val userId = ctx?.userId ?: return UnauthorizedErrorResponse.also {
-            ctx?.httpRequestContext?.res?.sendError(405, "You are not authorized to access this resource")
+            ctx?.httpRequestContext?.res?.sendError(401, "You are not authorized to access this resource")
         }
 
         if (policy!! == "") {
