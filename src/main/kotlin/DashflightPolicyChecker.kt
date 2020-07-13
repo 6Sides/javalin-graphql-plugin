@@ -18,7 +18,11 @@ class DashflightPolicyChecker @Inject constructor(
 
         val userId = ctx?.userId
 
-        policyIdMap.computeIfAbsent(policy!!) {
+        if (policy!! == "") {
+            return null
+        }
+
+        policyIdMap.computeIfAbsent(policy) {
             try {
                 postgresClient.connection.use { conn ->
                     val stmt = conn.prepareStatement("select id from accounts.policies where prefix = ? and name = ?")
