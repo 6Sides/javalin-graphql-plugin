@@ -26,7 +26,7 @@ class GraphQLPlugin(
             val tokenFgp = it.req.cookies?.let { list ->
                 list.firstOrNull { cookie ->
                     cookie.name == "Secure-Fgp"
-                }
+                }?.value
             }
 
             val ctx = contextProvider?.createContext(it, token, tokenFgp)
