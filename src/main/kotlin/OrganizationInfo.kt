@@ -1,0 +1,1 @@
+data class OrganizationInfo(val id: Int, val name: String)

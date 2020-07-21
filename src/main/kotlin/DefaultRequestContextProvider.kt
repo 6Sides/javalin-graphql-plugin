@@ -33,7 +33,7 @@ class DefaultRequestContextProvider @Inject constructor(
         } ?: RequestContext(httpRequestContext = context)
     }
 
-    private fun getLocations(userId: String): List<Location> {
+    private fun getLocations(userId: String): List<LocationInfo> {
         postgresClient.connection.use { conn ->
             val SQL = ("select locations.id, locations.name from accounts.user_locations "
                     + "inner join accounts.locations on user_locations.location_id = locations.id "
@@ -48,13 +48,13 @@ class DefaultRequestContextProvider @Inject constructor(
 
             return res.use {
                 generateSequence {
-                    if (res.next()) Location(res.getInt("id"), res.getString("name")) else null
+                    if (res.next()) LocationInfo(res.getInt("id"), res.getString("name")) else null
                 }.toList()
             }
         }
     }
 
-    private fun getOrgAndHomeLocation(userId: String): Pair<Organization, Location> {
+    private fun getOrgAndHomeLocation(userId: String): Pair<OrganizationInfo, LocationInfo> {
         postgresClient.connection.use { conn ->
             val SQL = ("select organizations.id as org_id, organizations.name as org_name, locations.id as home_location_id, locations.name as home_location_name from accounts.users "
                     + "inner join accounts.organizations on users.organization_id = organizations.id "
@@ -71,11 +71,11 @@ class DefaultRequestContextProvider @Inject constructor(
             res.next()
 
             return Pair(
-                Organization(
+                OrganizationInfo(
                     res.getInt("org_id"),
                     res.getString("org_name")
                 ),
-                Location(
+                LocationInfo(
                     res.getInt("home_location_id"),
                     res.getString("home_location_name")
                 )
